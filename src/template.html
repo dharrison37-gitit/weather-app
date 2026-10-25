@@ -18,13 +18,18 @@
       </label>
       <button type="submit" data-location-btn>Get Weather</button>
     </form>
+
+    <div id="current-conditions"></div>
   </div>
 
   <!-- Create Template for Weather Display -->
   <template id="current-conditions-template">
     <section>
       <h2 data-current-location></h2>
-      <div data-current-temp></div>
+      <div data-currently>
+        <span data-current-temp></span>
+        <span data-feels-like></span>
+      </div>
       <div data-current-description></div>
     </section>
   </template>

@@ -20,6 +20,40 @@ form.addEventListener("submit", (e) => {
 
 // create function to display items on page via template items
 function displayWeatherData(weather) {
+  displayConsole(weather);
+  displayCurrentConditions(weather);
+}
+
+function displayCurrentConditions(weather) {
+  const weatherTemplate = document.querySelector("#current-conditions-template");
+  const currentConditions = document.querySelector("#current-conditions");
+  const conditions = document.importNode(weatherTemplate.content, true);
+
+  const location = conditions.querySelector("[data-current-location]");
+  location.textContent = weather.address;
+  conditions.appendChild(location);
+
+  const symbol = "\u00B0";
+  const temp = conditions.querySelector("[data-current-temp]");
+  temp.textContent = `Currently ${weather.currently.temp}${symbol}`;
+  conditions.appendChild(temp);
+
+  const feelslike = conditions.querySelector("[data-feels-like]");
+  feelslike.textContent = `Feels like ${weather.currently.feelslike}${symbol}`;
+  conditions.appendChild(feelslike);
+
+  const description = conditions.querySelector("[data-current-description]");
+  description.textContent = weather.description;
+  conditions.appendChild(description);
+
+  currentConditions.appendChild(conditions);
+}
+
+function displayForecast(weather) {
+  return;
+}
+
+function displayConsole(weather) {
   console.clear();
   console.log(weather.address);
   console.log(weather.description);
