@@ -2,22 +2,32 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
 </head>
 
 <body>
 
-    <div class="container">
+  <div class="container">
+    <form data-form>
+      <label for="location">
+        Location:
+        <input type="text" name="location" id="location" required>
+      </label>
+      <button type="submit" data-location-btn>Get Weather</button>
+    </form>
+  </div>
 
-        <header></header>
-
-        <main></main>
-
-        <footer></footer>
-
-    </div>
+  <!-- Create Template for Weather Display -->
+  <template id="current-conditions-template">
+    <section>
+      <h2 data-current-location></h2>
+      <div data-current-temp></div>
+      <div data-current-description></div>
+    </section>
+  </template>
 
 </body>
 
