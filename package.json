@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dharrison37-gitit/base-project-template.git"
+    "url": "git+https://github.com/dharrison37-gitit/weather-app"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dharrison37-gitit/base-project-template/issues"
+    "url": "https://github.com/dharrison37-gitit/weather-app/issues"
   },
-  "homepage": "https://github.com/dharrison37-gitit/base-project-template#readme",
+  "homepage": "https://github.com/dharrison37-gitit/weather-app#readme",
   "devDependencies": {
     "css-loader": "^7.1.5",
     "html-loader": "^5.1.0",
