@@ -1,4 +1,6 @@
-* {
+*,
+::before,
+::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -19,6 +21,15 @@
     "Helvetica Neue",
     sans-serif;
   line-height: 1.5;
+}
+
+body {
+  background-color: rgb(211 211 211 / 1);
+}
+
+section {
+  width: 700px;
+  margin: auto;
 }
 
 #current-conditions,
@@ -44,14 +55,31 @@ input[type="text"] {
 
 .container {
   height: 100vh;
-  width: 90vw;
   padding: 50px 0;
-  margin: 0 auto;
-  border: 1px solid;
+}
+
+.day {
+  background-color: rgb(190 190 246 / 0.5);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+  padding: 10px;
+  font-weight: 777;
+}
+
+.weather-icon {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 5px 0;
 }
 
 [data-forecast-container],
 [data-currently] {
+  background-color: rgb(190 190 246 / 0.25);
+
   width: 700px;
   min-height: 200px;
   display: grid;
@@ -61,6 +89,20 @@ input[type="text"] {
   justify-items: center;
   padding: 1.5rem;
   border: 1px solid green;
+}
+
+[data-forecast-container] {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+  margin: 20px auto;
+}
+
+[data-forecast-header] {
+  width: 700px;
+  margin: 0 auto;
 }
 
 [data-current-temp] {
@@ -73,7 +115,7 @@ input[type="text"] {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
 }
 
 [data-conditions] {
@@ -83,4 +125,5 @@ input[type="text"] {
 [data-current-description] {
   width: 700px;
   text-align: center;
+  margin-top: 20px;
 }

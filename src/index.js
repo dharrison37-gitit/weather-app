@@ -8,6 +8,12 @@ const US = "unitGroup=us";
 const form = document.querySelector("[data-form]");
 const tempSymbol = "\u00B0";
 const percentSymbol = "\u0025";
+const sampleLocations = ["Oklahoma City, OK", "New York, NY", "Washington, DC"];
+
+getDataAsync(sampleLocations[Math.floor(Math.random() * 3)]).then((data) => {
+  const weather = processWeatherData(data);
+  displayWeatherDataAsync(weather);
+});
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -19,13 +25,13 @@ form.addEventListener("submit", (e) => {
   getDataAsync(location).then((data) => {
     const weather = processWeatherData(data);
     displayWeatherDataAsync(weather);
-    // displayForecast(weather);
+    displayForecast(weather);
   });
 
   form.reset();
 });
 
-// create function to display items on page via template items
+//#region Current Conditions Rendering
 async function displayWeatherDataAsync(weather) {
   const {
     address,
@@ -49,7 +55,7 @@ async function displayWeatherDataAsync(weather) {
   tempElem.textContent = `Currently ${parseInt(temp)}${tempSymbol}F`;
 
   const feelslikeElem = conditionsClone.querySelector("[data-feels-like]");
-  feelslikeElem.textContent = `Feels like: ${parseInt(feelslike)}${tempSymbol}`;
+  feelslikeElem.textContent = `Feels like: ${parseInt(feelslike)}${tempSymbol}F`;
 
   const humidityElem = conditionsClone.querySelector("[data-humidity]");
   humidityElem.textContent = `Humidity: ${parseInt(humidity)}${percentSymbol}`;
@@ -68,8 +74,9 @@ async function displayWeatherDataAsync(weather) {
 
   currentConditions.appendChild(conditionsClone);
 }
+//#endregion
 
-function displayForecast(weather) {
+async function displayForecast(weather) {
   // Target placement for template
   const weatherForecast = document.querySelector("#weather-forecast");
   weatherForecast.replaceChildren();
@@ -83,52 +90,48 @@ function displayForecast(weather) {
 
   const forecastContainer = forecastClone.querySelector("[data-forecast-container]");
 
-  weather.days.slice(0, 7).forEach((day) => {
+  for (const day of weather.days.slice(0, 7)) {
+    const dateStr = day.datetime;
+    const [year, month, dayVal] = dateStr.split("-");
+    const dateObj = new Date(year, month - 1, dayVal);
+    const abbrDay = dateObj.toLocaleDateString("en-US", { weekday: "short" });
+
+    const dayEl = document.createElement("div");
+    dayEl.classList.add("day");
+    dayEl.textContent = abbrDay;
+
     const highs = document.createElement("div");
-    highs.textContent = `${parseInt(day.tempmax)}${tempSymbol}`;
+    highs.textContent = `High ${parseInt(day.tempmax)}${tempSymbol}`;
 
     const lows = document.createElement("div");
-    lows.textContent = `${parseInt(day.tempmin)}${tempSymbol}`;
+    lows.textContent = `Low ${parseInt(day.tempmin)}${tempSymbol}`;
 
-    const humidity = document.createElement("div");
-    humidity.textContent = `${parseInt(day.humidity)}${percentSymbol}`;
+    const temps = document.createElement("div");
+    temps.textContent = `${parseInt(day.tempmax)}${tempSymbol} / ${parseInt(day.tempmin)}${tempSymbol}`;
 
-    forecastContainer.appendChild(highs);
-    forecastContainer.appendChild(lows);
-    forecastContainer.appendChild(humidity);
-  });
+    const iconImg = document.createElement("img");
+    iconImg.src = await loadWeatherIcon(day.icon);
+
+    const iconContainer = document.createElement("div");
+    iconContainer.classList.add("weather-icon");
+
+    iconContainer.appendChild(iconImg);
+
+    dayEl.appendChild(iconContainer);
+    dayEl.appendChild(temps);
+
+    forecastContainer.appendChild(dayEl);
+  }
 
   forecastClone.appendChild(forecastContainer);
 
   weatherForecast.appendChild(forecastClone);
 }
 
-function displayConsole(weather) {
-  console.clear();
-  console.log(weather.address);
-  console.log(weather.description);
-  console.log(weather.windspeed);
-  console.log(
-    "Temp:",
-    weather.currently.temp,
-    "Feels like:",
-    weather.currently.feelslike,
-    "Humidity:",
-    weather.currently.humidity
-  );
-
-  console.log("Alerts / Special Weather Statements");
-  weather.alerts.forEach((alert) => console.log(alert.description));
-
-  console.log("7 Day Outlook");
-  weather.days.slice(0, 7).forEach((day) => {
-    console.table(day.tempmax, day.tempmin, day.humidity);
-  });
-}
-
 async function getDataAsync(location) {
   try {
-    const response = await fetch(`${BASE_TIMELINE_URL}/${location}?${US}&key=${API_KEY}`);
+    const encodedLocation = encodeURI(location);
+    const response = await fetch(`${BASE_TIMELINE_URL}/${encodedLocation}?${US}&key=${API_KEY}`);
 
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -146,7 +149,7 @@ function processWeatherData(data) {
     address: data.address,
     description: data.description,
     currently: data.currentConditions,
-    days: data.days, // could limit to seven
+    days: data.days,
     alerts: data.alerts,
   };
 }

@@ -11,7 +11,7 @@
 
   <div class="container">
     <form data-form>
-      <input data-location-input type="text" name="location" id="location" placeholder="Location" required>
+      <input data-location-input type="text" name="location" id="location" placeholder="e.g. Denver, CO" required>
       <button type="submit" data-location-btn>Get Weather</button>
     </form>
 
@@ -44,11 +44,7 @@
   <template id="weather-forecast-template">
     <section>
       <h2 data-forecast-header></h2>
-      <div data-forecast-container>
-        <h3>Highs</h3>
-        <h3>Lows</h3>
-        <h3>Humidity</h3>
-      </div>
+      <div data-forecast-container></div>
     </section>
   </template>
 
