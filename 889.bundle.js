@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbase_project_template=self.webpackChunkbase_project_template||[]).push([[889],{889(e,s,t){const a=t.p+"assets/icons/snow-showers-night.svg";t.d(s,["default",0,a])}}]);

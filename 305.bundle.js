@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbase_project_template=self.webpackChunkbase_project_template||[]).push([[305],{305(e,s,t){const a=t.p+"assets/icons/wind.svg";t.d(s,["default",0,a])}}]);

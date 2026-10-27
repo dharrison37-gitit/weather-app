@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbase_project_template=self.webpackChunkbase_project_template||[]).push([[409],{409(e,s,t){const a=t.p+"assets/icons/hail.svg";t.d(s,["default",0,a])}}]);

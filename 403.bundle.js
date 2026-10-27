@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbase_project_template=self.webpackChunkbase_project_template||[]).push([[403],{403(e,s,t){const a=t.p+"assets/icons/clear-day.svg";t.d(s,["default",0,a])}}]);

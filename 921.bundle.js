@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbase_project_template=self.webpackChunkbase_project_template||[]).push([[921],{921(e,s,t){const a=t.p+"assets/icons/fog.svg";t.d(s,["default",0,a])}}]);
