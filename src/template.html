@@ -5,27 +5,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-
 </head>
 
 <body>
 
   <div class="container">
     <form data-form>
-      <label for="location">
-        Location:
-        <input type="text" name="location" id="location" required>
-      </label>
+      <input data-location-input type="text" name="location" id="location" placeholder="e.g. Denver, CO" required>
       <button type="submit" data-location-btn>Get Weather</button>
     </form>
+
+    <div id="current-conditions"></div>
+    <div id="weather-forecast"></div>
   </div>
 
   <!-- Create Template for Weather Display -->
   <template id="current-conditions-template">
     <section>
       <h2 data-current-location></h2>
-      <div data-current-temp></div>
+      <div data-currently>
+        <div data-current-temp></div>
+        <div data-additional-info>
+          <div data-feels-like></div>
+          <div data-humidity></div>
+          <div data-winds></div>
+        </div>
+        <div data-conditions-container>
+          <div data-conditions></div>
+          <img id="iconImage" data-icon>
+        </div>
+      </div>
+    </section>
+    <section>
       <div data-current-description></div>
+    </section>
+  </template>
+
+  <template id="weather-forecast-template">
+    <section>
+      <h2 data-forecast-header></h2>
+      <div data-forecast-container></div>
     </section>
   </template>
 
