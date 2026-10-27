@@ -3,7 +3,11 @@ import "./styles.css";
 const BASE_TIMELINE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
 const API_KEY = "S99YY6U6SCWUJFQ763DTS23ZJ";
+const METRIC = "unitGroup=metric";
+const US = "unitGroup=us";
 const form = document.querySelector("[data-form]");
+const tempSymbol = "\u00B0";
+const percentSymbol = "\u0025";
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -14,49 +18,96 @@ form.addEventListener("submit", (e) => {
 
   getDataAsync(location).then((data) => {
     const weather = processWeatherData(data);
-    displayWeatherData(weather);
+    displayWeatherDataAsync(weather);
+    // displayForecast(weather);
   });
+
+  form.reset();
 });
 
 // create function to display items on page via template items
-function displayWeatherData(weather) {
-  displayConsole(weather);
-  displayCurrentConditions(weather);
-}
+async function displayWeatherDataAsync(weather) {
+  const {
+    address,
+    description,
+    currently: { temp, feelslike, humidity, windspeed, conditions, icon },
+  } = weather;
 
-function displayCurrentConditions(weather) {
-  const weatherTemplate = document.querySelector("#current-conditions-template");
+  // Clear currently rendered content
   const currentConditions = document.querySelector("#current-conditions");
-  const conditions = document.importNode(weatherTemplate.content, true);
+  currentConditions.replaceChildren();
 
-  const location = conditions.querySelector("[data-current-location]");
-  location.textContent = weather.address;
-  conditions.appendChild(location);
+  // Target element to place template clone
+  const currentConditionsTemplate = document.querySelector("#current-conditions-template");
 
-  const symbol = "\u00B0";
-  const temp = conditions.querySelector("[data-current-temp]");
-  temp.textContent = `Currently ${weather.currently.temp}${symbol}`;
-  conditions.appendChild(temp);
+  const conditionsClone = document.importNode(currentConditionsTemplate.content, true);
 
-  const feelslike = conditions.querySelector("[data-feels-like]");
-  feelslike.textContent = `Feels like ${weather.currently.feelslike}${symbol}`;
-  conditions.appendChild(feelslike);
+  const locationElem = conditionsClone.querySelector("[data-current-location]");
+  locationElem.textContent = address;
 
-  const description = conditions.querySelector("[data-current-description]");
-  description.textContent = weather.description;
-  conditions.appendChild(description);
+  const tempElem = conditionsClone.querySelector("[data-current-temp]");
+  tempElem.textContent = `Currently ${parseInt(temp)}${tempSymbol}F`;
 
-  currentConditions.appendChild(conditions);
+  const feelslikeElem = conditionsClone.querySelector("[data-feels-like]");
+  feelslikeElem.textContent = `Feels like: ${parseInt(feelslike)}${tempSymbol}`;
+
+  const humidityElem = conditionsClone.querySelector("[data-humidity]");
+  humidityElem.textContent = `Humidity: ${parseInt(humidity)}${percentSymbol}`;
+
+  const windElem = conditionsClone.querySelector("[data-winds]");
+  windElem.textContent = `Winds: ${windspeed} mph`;
+
+  const conditionsElem = conditionsClone.querySelector("[data-conditions]");
+  conditionsElem.textContent = conditions;
+
+  const conditionsIcon = conditionsClone.querySelector("[data-icon]");
+  conditionsIcon.src = await loadWeatherIcon(icon);
+
+  const descriptionElem = conditionsClone.querySelector("[data-current-description]");
+  descriptionElem.textContent = description;
+
+  currentConditions.appendChild(conditionsClone);
 }
 
 function displayForecast(weather) {
-  return;
+  // Target placement for template
+  const weatherForecast = document.querySelector("#weather-forecast");
+  weatherForecast.replaceChildren();
+
+  // Template creation
+  const weatherForecastTemplate = document.querySelector("#weather-forecast-template");
+  const forecastClone = document.importNode(weatherForecastTemplate.content, true);
+
+  const forecastHeader = forecastClone.querySelector("[data-forecast-header]");
+  forecastHeader.textContent = "7 Day Outlook";
+
+  const forecastContainer = forecastClone.querySelector("[data-forecast-container]");
+
+  weather.days.slice(0, 7).forEach((day) => {
+    const highs = document.createElement("div");
+    highs.textContent = `${parseInt(day.tempmax)}${tempSymbol}`;
+
+    const lows = document.createElement("div");
+    lows.textContent = `${parseInt(day.tempmin)}${tempSymbol}`;
+
+    const humidity = document.createElement("div");
+    humidity.textContent = `${parseInt(day.humidity)}${percentSymbol}`;
+
+    forecastContainer.appendChild(highs);
+    forecastContainer.appendChild(lows);
+    forecastContainer.appendChild(humidity);
+  });
+
+  forecastClone.appendChild(forecastContainer);
+
+  weatherForecast.appendChild(forecastClone);
 }
 
 function displayConsole(weather) {
   console.clear();
   console.log(weather.address);
   console.log(weather.description);
+  console.log(weather.windspeed);
   console.log(
     "Temp:",
     weather.currently.temp,
@@ -71,13 +122,13 @@ function displayConsole(weather) {
 
   console.log("7 Day Outlook");
   weather.days.slice(0, 7).forEach((day) => {
-    console.log(`High: ${day.tempmax} Low: ${day.tempmin} Humidity: ${day.humidity}`);
+    console.table(day.tempmax, day.tempmin, day.humidity);
   });
 }
 
 async function getDataAsync(location) {
   try {
-    const response = await fetch(`${BASE_TIMELINE_URL}/${location}?key=${API_KEY}`);
+    const response = await fetch(`${BASE_TIMELINE_URL}/${location}?${US}&key=${API_KEY}`);
 
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -100,7 +151,11 @@ function processWeatherData(data) {
   };
 }
 
-// create function to convert temps between F/C all temps on page
-function convertTemperature() {
-  return;
+async function loadWeatherIcon(iconName) {
+  try {
+    const module = await import(`./assets/icons/${iconName}.svg`);
+    return module.default;
+  } catch (error) {
+    console.log("Image not found", error);
+  }
 }

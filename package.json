@@ -23,6 +23,7 @@
   "homepage": "https://github.com/dharrison37-gitit/weather-app#readme",
   "devDependencies": {
     "css-loader": "^7.1.5",
+    "file-loader": "^6.2.0",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.8",
     "style-loader": "^4.0.0",
