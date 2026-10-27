@@ -98,7 +98,7 @@ input[type="text"] {
   gap: 8px;
   align-items: center;
   justify-items: center;
-  margin: 20px auto;
+  margin: auto;
 }
 
 [data-forecast-header] {
