@@ -14,7 +14,6 @@
       <input data-location-input type="text" name="location" id="location" placeholder="e.g. Denver, CO" required>
       <button type="submit" data-location-btn>Get Weather</button>
     </form>
-
     <div id="current-conditions"></div>
     <div id="weather-forecast"></div>
   </div>
@@ -22,7 +21,10 @@
   <!-- Create Template for Weather Display -->
   <template id="current-conditions-template">
     <section>
-      <h2 data-current-location></h2>
+      <header data-location-header>
+        <h2 data-current-location></h2>
+        <span><a href="#" data-unit-toggle>Change Unit</a></span>
+      </header>
       <div data-currently>
         <div data-current-temp></div>
         <div data-additional-info>

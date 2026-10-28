@@ -1,6 +1,4 @@
-*,
-::before,
-::after {
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -54,13 +52,14 @@ input[type="text"] {
 }
 
 .container {
-  width: 800px;
+  width: 50vw;
   height: 100vh;
   padding: 50px 0;
-  margin: 0 auto;
+  margin: 50px auto;
 }
 
 .day {
+  min-width: 100px;
   background-color: rgb(190 190 246 / 0.5);
   display: grid;
   grid-template-columns: 1fr;
@@ -69,6 +68,8 @@ input[type="text"] {
   justify-items: center;
   padding: 10px;
   font-weight: 777;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px #000;
 }
 
 .weather-icon {
@@ -127,4 +128,30 @@ input[type="text"] {
   width: 100%;
   text-align: center;
   margin-top: 20px;
+}
+
+[data-location-header] {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+[data-location-header] > :last-child {
+  justify-self: end;
+}
+
+[data-unit-toggle]:link,
+[data-unit-toggle]:visited {
+  background-color: rgb(200 200 200 / 0.5);
+  color: green;
+  font-weight: 777;
+  text-decoration: none;
+  padding: 2px 8px;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+[data-unit-toggle]:hover {
+  background-color: lightgreen;
 }
