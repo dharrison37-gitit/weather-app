@@ -1,16 +1,15 @@
-# base-project-template
+# Weather App
 
-A basic boilerplate project template of items being set up each time. This includes webpack basic setup with ability to serve html and css files and resources.
+# Reflection
 
-## Included:
+- This was a fun challenge for me as I like working with API's and weather
+- Had a few difficult challenges to deal with like dynamically importing icons
+- Cached weather data to manipulate the temperature unit between Fahrenheit and Celcius
+- Also added local storage for the current location given by user so on page refresh re-entry is not
+  needed unless it's a new location.
+- Application has three hard-coded location strings so on first visit, weather information should
+  not be empy.
 
-### Plugins:
-  - HtmlWebPack for html templates
+# Possible addition(s)
 
-### Rules:
-  - html loaders
-  - css loaders
-  - image loaders
-
-### Development Server:
-  - Set to watch the source folder and template.html
+- May return to app to make it responsive once I gain that knowledge
