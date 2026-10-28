@@ -59,7 +59,7 @@ input[type="text"] {
 }
 
 .day {
-  min-width: 100px;
+  min-width: 75px;
   background-color: rgb(190 190 246 / 0.5);
   display: grid;
   grid-template-columns: 1fr;
