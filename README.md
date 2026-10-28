@@ -13,3 +13,4 @@
 # Possible addition(s)
 
 - May return to app to make it responsive once I gain that knowledge
+- May add status indicator for long network request waiting - spinner
