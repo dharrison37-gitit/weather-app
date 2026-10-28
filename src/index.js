@@ -3,12 +3,14 @@ import "./styles.css";
 const BASE_TIMELINE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline";
 const API_KEY = "S99YY6U6SCWUJFQ763DTS23ZJ";
+const STORAGE_KEY = "WEATHER-location";
 const form = document.querySelector("[data-form]");
 const tempSymbol = "\u00B0";
 const percentSymbol = "\u0025";
 const sampleLocations = ["Oklahoma City, OK", "New York, NY", "Washington, DC"];
 
 let cachedWeather = null;
+let cachedLocation = JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? null;
 let unit = "F";
 
 async function getDataAsync(location) {
@@ -27,7 +29,8 @@ async function getDataAsync(location) {
   }
 }
 
-getDataAsync(sampleLocations[Math.floor(Math.random() * 3)]);
+if (!cachedLocation) getDataAsync(sampleLocations[Math.floor(Math.random() * 3)]);
+else getDataAsync(cachedLocation);
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -35,6 +38,10 @@ form.addEventListener("submit", (e) => {
   const formData = new FormData(form);
   const location = formData.get("location");
   if (!location) return;
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(location));
+
+  const cachedLocation = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
   getDataAsync(location);
 
